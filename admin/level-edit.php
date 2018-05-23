@@ -286,8 +286,10 @@ final class RUA_Level_Edit extends RUA_Admin {
 
 		$val = $metadata->get('page')->get_data($post->ID);
 
-		echo '<div><p><select name="page" class="js-rua-page" data-tags="1" data-rua-url="'.get_site_url().'">';
-		if(is_numeric($val)) {
+		echo '<div><p><select name="page" class="js-rua-page" data-tags="1" data-rua-url="'.get_site_url().'" data-fixed-items=\'[{"id":"_wp_login_","text":"Wordpress Login"}]\'">';
+		if($val == '_wp_login_') {
+			echo '<option value="_wp_login_" selected="selected">Wordpress Login</option>';
+		} else if(is_numeric($val)) {
 			$page = get_post($val);
 			echo '<option value="'.$page->ID.'" selected="selected">'.$page->post_title.'</option>';
 		} elseif($val) {
@@ -907,7 +909,7 @@ final class RUA_Level_Edit extends RUA_Admin {
 
 		WPCACore::enqueue_scripts_styles('');
 
-		wp_enqueue_script('rua/admin/edit', plugins_url('../js/edit.min.js', __FILE__), array('select2','jquery'), RUA_App::PLUGIN_VERSION);
+		wp_enqueue_script('rua/admin/edit', plugins_url('../js/edit.js', __FILE__), array('select2','jquery'), RUA_App::PLUGIN_VERSION);
 
 		wp_enqueue_style('rua/style', plugins_url('../css/style.css', __FILE__), array(), RUA_App::PLUGIN_VERSION);
 

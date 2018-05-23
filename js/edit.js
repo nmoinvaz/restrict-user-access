@@ -29,7 +29,11 @@
 
 		suggestPages: function() {
 			var $elem = $('.js-rua-page'),
-				rootUrl = $elem.data("rua-url");
+				rootUrl = $elem.data("rua-url"),
+				fixedItems = [];
+			if ($elem.data('fixed-items') != undefined) {
+				fixedItems = $elem.data('fixed-items');
+			}
 			$elem.select2({
 				theme:'wpca',
 				minimumInputLength: 0,
@@ -51,6 +55,9 @@
 					dataType: 'JSON',
 					type: 'POST',
 					processResults: function (data, params) {
+						for (var i in fixedItems) {
+							data.push(fixedItems[i]);
+						}
 						return {
 							results: data,
 							pagination: {
